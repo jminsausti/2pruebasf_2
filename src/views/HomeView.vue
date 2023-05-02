@@ -2,9 +2,9 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/TX.jpg">
     <br>
-    <img alt="Vue logo" src="../assets/descarga_200x200.jpg">
-    <img alt="Vue logo" src="../assets/turismo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img alt="Vue logo" src="../assets/euskadi-azul_200x200.jpg">
+    <img alt="Vue logo" src="../assets/turismo_200x200.png">
+    <HelloWorld msg="Ongi etorri Txurdinagako turismo orrira"/>
   </div>
 </template>
 
