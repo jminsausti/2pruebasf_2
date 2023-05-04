@@ -2,9 +2,24 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/TX.jpg">
     <br>
-    <img alt="Vue logo" src="../assets/euskadi-azul_200x200.jpg">
-    <img alt="Vue logo" src="../assets/turismo_200x200.png">
-    <HelloWorld msg="Ongi etorri Txurdinagako turismo orrira"/>
+    <!-- <img alt="Vue logo" src="../assets/euskadi-azul_200x200.jpg">
+    <img alt="Vue logo" src="../assets/turismo_200x200.png"> -->
+    <HelloWorld msg="Ongi etorri CIFP Txurdinaga LHII-ko turismo orrira"/>
+    <hr>
+    <h3>
+      Si quieres personalizar y guardar de manera local tu recorrido turístico danos tu nombre. Si no tus preferencias no se guardarán.
+    </h3>  
+    <form @submit.prevent>
+		<p>
+			<label for="nombre">Nombre: </label>
+			<input type="text" id="nombre" placeholder="Introduce tu nombre" v-model="nombre">
+		</p>
+             
+      <br>
+      <button value="Login usuario" @click="comprobarUsuario">Login Usuario</button>
+  </form>
+
+
   </div>
 </template>
 
@@ -16,6 +31,25 @@ export default {
   name: 'HomeView',
   components: {
     HelloWorld
+  },
+  data(){
+    return{
+      nombre:'',
+
+    }
+  },
+  methods:{
+    comprobarUsuario(){
+      nom=localStorage.getItem("nombre")
+      if (nom==this.nombre)
+        alert( localStorage.this.nombre);
+      else{
+        alert("usuario nuevo")
+        localStorage.nombre=this.nombre;
+        alert("Usuario almacenado")
+
+      }
+    }
   }
 }
 </script>
