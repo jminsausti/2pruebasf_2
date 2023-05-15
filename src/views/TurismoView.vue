@@ -3,20 +3,28 @@
         <img alt="Turismo logo" src="../assets/turismo_200x200.png"> 
     </div>
     <h1>Creación de ruta turística</h1>
-    <hr>
+  
     <h3>Eventos</h3>
+    <label for="territorios">Selecciona provincia:</label>
+    <select v-model="territorio">
+      <option disabled value="">Elige una opción</option>
+      <option>Todos</option>
+      <option>Araba</option>
+      <option>Bizkaia</option>
+      <option>Gipuzkoa</option>
+    </select>
     <hr>
     <table class="content-table">
       <thead>
         <tr>
         <th scope="col">Evento</th>
-        <th scope="col">Descripción</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Stock</th>
+        <th scope="col">URL</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Territorio</th>
       </tr>
       </thead>
       <tbody>
-          <tr scope="row" v-for="evento in eventos">
+          <tr class="bizkaiaClass" scope="row" v-for="evento in eventosSelect">
           <td>{{ evento.documentName }}</td>
           <td>{{ evento.friendlyUrl }}</td>
           <td>{{ evento.eventStartDate }}</td>
@@ -36,6 +44,7 @@
       return{
         usuario:'',
         eventos:[],
+        territorio:[]
         
       }
     },
@@ -43,6 +52,14 @@
         
         this.cargarEventos()
       },
+      computed:{
+        eventosSelect(){
+          if (this.territorio != "Todos")
+            return this.eventos.filter((evento) => evento.territory == this.territorio);
+          else  
+            return this.eventos
+        }
+      }, 
   methods:{
     cargarEventos(){
       axios.get('../json/agenda.json')
@@ -51,7 +68,6 @@
                 this.eventos = respuesta.data;
             });
     },
-   
     }
   }
 </script>
@@ -67,8 +83,12 @@ th, td {
     border: 1px solid #dee2e6;
   }
 th {
+  background-color: darkgrey;
   height: 40px;
   text-align: center;
   font-weight: bold;
+  }
+.bizkaiaClass {
+    background-color: chartreuse;
   }
 </style>
