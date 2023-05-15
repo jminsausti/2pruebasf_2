@@ -2,8 +2,8 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/TX.jpg">
     <br>
-    <!-- <img alt="Vue logo" src="../assets/euskadi-azul_200x200.jpg">
-    <img alt="Vue logo" src="../assets/turismo_200x200.png"> -->
+    <img alt="Vue logo" src="../assets/euskadi-azul_200x200.jpg">
+    <!-- <img alt="Vue logo" src="../assets/turismo_200x200.png"> -->
     <HelloWorld msg="Ongi etorri CIFP Txurdinaga LHII-ko turismo orrira"/>
     <hr>
     <h3>
@@ -12,7 +12,7 @@
     <form @submit.prevent>
 		<p>
 			<label for="nombre">Nombre: </label>
-			<input type="text" id="nombre" placeholder="Introduce tu nombre" v-model="nombre">
+			<input type="text" id="nombre" placeholder="Introduce tu nombre" v-model="nombreUsuario">
 		</p>
              
       <br>
@@ -34,20 +34,20 @@ export default {
   },
   data(){
     return{
-      nombre:'',
+      nombreUsuario:'',
 
     }
   },
   methods:{
     comprobarUsuario(){
-      nom=localStorage.getItem("nombre")
-      if (nom==this.nombre)
-        alert( localStorage.this.nombre);
+      if(localStorage.getItem("nombreUsuario")){
+        alert();
+        alert("Bienvenido " +localStorage.getItem("nombreUsuario"))
+        this.nombreUsuario=localStorage.getItem('nombreUsuario')
+        }
       else{
-        alert("usuario nuevo")
-        localStorage.nombre=this.nombre;
-        alert("Usuario almacenado")
-
+        alert("Nuevo usuario: " + this.nombreUsuario)
+        localStorage.setItem("nombreUsuario", this.nombreUsuario)
       }
     }
   }
