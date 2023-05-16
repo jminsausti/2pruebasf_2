@@ -4,7 +4,8 @@
     </div>
     <h1>Creación de ruta turística</h1>
   
-    <h3>Eventos</h3>
+    <h3>FILTROS</h3>
+    <p>Los filtros NO son excluyentes, es decir se puede filtrar por territorio, por mes del evento y por territorio y mes</p>
     <label for="territorios">Selecciona provincia:</label>
     <select v-model="territorio">
       <option disabled value="">Elige una opción</option>
@@ -14,22 +15,43 @@
       <option>Gipuzkoa</option>
     </select>
     <hr>
+    <label for="Fechas">Selecciona mes del evento:</label>
+    <select v-model="mes">
+      <option  value="">Elige una opción (Todos)</option>
+      <option value="01">Enero</option>
+      <option value="02">Febrero</option>
+      <option value="03">Marzo</option>
+      <option value="04">Abril</option>
+      <option value="05">Mayo</option>
+      <option value="06">Junio</option>
+      <option value="07">Julio</option>
+      <option value="08">Agosto</option>
+      <option value="09">Setiembre</option>
+      <option value="10">Octubre</option>
+      <option value="11">Noviembre</option>
+      <option value="12">Diciembre</option>
+    </select>
+    <hr>
     <table class="content-table">
       <thead>
         <tr>
         <th scope="col">Evento</th>
-        <th scope="col">URL</th>
         <th scope="col">Fecha</th>
         <th scope="col">Territorio</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Más Info</th>
       </tr>
       </thead>
       <tbody>
-          <tr class="bizkaiaClass" scope="row" v-for="evento in eventosSelect">
+          <tr :style="backClass(evento.territory)" scope="row" v-for="evento in eventosSelect">
           <td>{{ evento.documentName }}</td>
-          <td>{{ evento.friendlyUrl }}</td>
           <td>{{ evento.eventStartDate }}</td>
           <td>{{ evento.territory }}</td>
-          <!-- <td><button @click="factura(producto)">Comprar</button></td> -->
+          <td>{{ evento.documentDescription }}</td>
+          <td><a  target="_BLANK" :href="evento.friendlyUrl">{{ evento.friendlyUrl }}</a></td>
+
+          <!-- <td><button @click="masInfo(evento)">Más información</button></td> -->
+         
         </tr>
       </tbody>
     </table>
@@ -44,20 +66,34 @@
       return{
         usuario:'',
         eventos:[],
-        territorio:[]
+        territorio:'',
+        mes:'',
+        rowColor:''
         
       }
     },
       mounted() {
-        
         this.cargarEventos()
       },
       computed:{
         eventosSelect(){
-          if (this.territorio != "Todos")
-            return this.eventos.filter((evento) => evento.territory == this.territorio);
-          else  
-            return this.eventos
+          if (this.territorio != "Todos"){
+            if (this.mes !="")
+              return this.eventos.filter((evento) => (evento.territory == this.territorio) && (evento.eventStartDate.substring(3,5)==this.mes) );
+            if (this.mes =='')
+              return this.eventos.filter((evento) => (evento.territory == this.territorio))
+          }
+          else {
+            if (this.mes !="")
+              return this.eventos.filter((evento) => (evento.eventStartDate.substring(3,5)==this.mes))
+            if (this.mes =='')
+              return this.eventos;
+
+            /* if(this.territorio=="Bizkaia") this.rowColor='chartreuse';
+            if(this.territorio=="Gipuzkoa") this.rowColor='darkkhaki'; */
+            
+          } 
+            
         }
       }, 
   methods:{
@@ -68,6 +104,19 @@
                 this.eventos = respuesta.data;
             });
     },
+    backClass(valor){
+      //alert(valor)
+      if (valor=="Araba"){
+        return {'background-color':'aqua'}
+      }
+      else if (valor=="Bizkaia"){
+        return {'background-color':'chartreuse'}
+      }
+      else if (valor == "Gipuzkoa"){
+        return {'background-color':'darkkhaki'}
+      }
+    }
+    
     }
   }
 </script>
@@ -91,4 +140,10 @@ th {
 .bizkaiaClass {
     background-color: chartreuse;
   }
+.gipuzkoaClass{
+  background-color: darkkhaki;
+}
+.arabaClass{
+  background-color: aqua;
+}
 </style>
