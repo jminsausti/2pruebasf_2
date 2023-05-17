@@ -1,7 +1,6 @@
 <template>
     <div class="home">
-        <img alt="Turismo logo" src="../assets/turismo_200x200.png"> 
-        <img alt="Turismo logo" src="../assets/like_2.png"> 
+        <img alt="Turismo logo" src="../assets/turismo_200x200.png">  
     </div>
     <h1>Creación de ruta turística</h1>
   
@@ -50,10 +49,8 @@
           <td>{{ evento.territory }}</td>
           <td>{{ evento.documentDescription }}</td>
           <td><a  target="_BLANK" :href="evento.friendlyUrl">{{ evento.friendlyUrl }}</a></td>
-          <td><img class="imagen" src="../assets/like_2.png" alt="like" @click="like(evento)"></td>
-
-          <!-- <td><button @click="masInfo(evento)">Más información</button></td> -->
-         
+          <td><img class="imagen" src="../assets/like.png" alt="like" @click="btnLike($event,evento)"></td>
+          <!-- <td><button @click="btnPulsado">Añadir a favorito</button></td> -->         
         </tr>
       </tbody>
     </table>
@@ -90,11 +87,7 @@
             if (this.mes !="")
               return this.eventos.filter((evento) => (evento.eventStartDate.substring(3,5)==this.mes))
             if (this.mes =='')
-              return this.eventos;
-
-            /* if(this.territorio=="Bizkaia") this.rowColor='chartreuse';
-            if(this.territorio=="Gipuzkoa") this.rowColor='darkkhaki'; */
-            
+              return this.eventos;            
           } 
             
         }
@@ -108,7 +101,6 @@
             });
     },
     backClass(valor){
-      //alert(valor)
       if (valor=="Araba"){
         return {'background-color':'coral'}
       }
@@ -119,11 +111,23 @@
         return {'background-color':'darkkhaki'}
       }
     },
-    like(e){
-      if (e.target.src="../assets/like_2.png")
-        e.target.src="../assets/like.png"
+    btnLike(e,evento){
+      // cambio de la imagen al hacer click
+      alert(evento.territory)
+      alert(e.target.src)
+      if (e.target.src==require("../assets/like_2.png"))
+        e.target.src=require("../assets/like.png")
       else
-        e.target.src="../assets/like_2.png"
+        e.target.src=require("../assets/like_2.png")
+
+
+
+    },
+    btnPulsado(e){
+      if (e.target.textContent=="Añadir a favorito")
+        e.target.textContent="Quitar de favorito"
+      else
+        e.target.textContent="Añadir a favorito"
     }
     
     }
@@ -146,15 +150,6 @@ th {
   text-align: center;
   font-weight: bold;
   }
-  .arabaClass{
-  background-color: coral;
-}
-.bizkaiaClass {
-    background-color: bisque;
-  }
-.gipuzkoaClass{
-  background-color: darkkhaki;
-}
 .imagen{
   height: 60px;
   width: 60px;
