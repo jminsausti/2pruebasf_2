@@ -1,6 +1,7 @@
 <template>
     <div class="home">
         <img alt="Turismo logo" src="../assets/turismo_200x200.png"> 
+        <img alt="Turismo logo" src="../assets/like_2.png"> 
     </div>
     <h1>Creación de ruta turística</h1>
   
@@ -14,7 +15,7 @@
       <option>Bizkaia</option>
       <option>Gipuzkoa</option>
     </select>
-    <hr>
+    
     <label for="Fechas">Selecciona mes del evento:</label>
     <select v-model="mes">
       <option  value="">Elige una opción (Todos)</option>
@@ -31,7 +32,7 @@
       <option value="11">Noviembre</option>
       <option value="12">Diciembre</option>
     </select>
-    <hr>
+    <hr><hr>
     <table class="content-table">
       <thead>
         <tr>
@@ -49,6 +50,7 @@
           <td>{{ evento.territory }}</td>
           <td>{{ evento.documentDescription }}</td>
           <td><a  target="_BLANK" :href="evento.friendlyUrl">{{ evento.friendlyUrl }}</a></td>
+          <td><img class="imagen" src="../assets/like_2.png" alt="like" @click="like(evento)"></td>
 
           <!-- <td><button @click="masInfo(evento)">Más información</button></td> -->
          
@@ -68,7 +70,8 @@
         eventos:[],
         territorio:'',
         mes:'',
-        rowColor:''
+        rowColor:'',
+        imagenLike:''
         
       }
     },
@@ -107,14 +110,20 @@
     backClass(valor){
       //alert(valor)
       if (valor=="Araba"){
-        return {'background-color':'aqua'}
+        return {'background-color':'coral'}
       }
       else if (valor=="Bizkaia"){
-        return {'background-color':'chartreuse'}
+        return {'background-color':'bisque'}
       }
       else if (valor == "Gipuzkoa"){
         return {'background-color':'darkkhaki'}
       }
+    },
+    like(e){
+      if (e.target.src="../assets/like_2.png")
+        e.target.src="../assets/like.png"
+      else
+        e.target.src="../assets/like_2.png"
     }
     
     }
@@ -137,13 +146,18 @@ th {
   text-align: center;
   font-weight: bold;
   }
+  .arabaClass{
+  background-color: coral;
+}
 .bizkaiaClass {
-    background-color: chartreuse;
+    background-color: bisque;
   }
 .gipuzkoaClass{
   background-color: darkkhaki;
 }
-.arabaClass{
-  background-color: aqua;
+.imagen{
+  height: 60px;
+  width: 60px;
 }
+
 </style>
