@@ -7,12 +7,12 @@
     <h3>FILTROS</h3>
     <p>Los filtros NO son excluyentes, es decir se puede filtrar por territorio, por mes del evento y por territorio y mes</p>
     <label for="territorios">Selecciona provincia:</label>
-    <select v-model="territorio" @change="resetTabla">
+    <select v-model="territorio">
       <option disabled value="">Elige una opción</option>
-      <option>Todos</option>
-      <option>Araba</option>
-      <option>Bizkaia</option>
-      <option>Gipuzkoa</option>
+      <option value="Todos">Todos</option>
+      <option value="Araba">Araba</option>
+      <option value="Bizkaia">Bizkaia</option>
+      <option value="Gipuzkoa">Gipuzkoa</option>
     </select>
     
     <label for="Fechas">Selecciona mes del evento:</label>
@@ -100,18 +100,6 @@
                 this.eventos = respuesta.data;
             });
     },
-    resetTabla(){
-      alert("cambio botones")
-      const botones=document.getElementsByTagName('button')
-      alert(botones)
-      /* .forEach(element => {
-        element.textContent="Añadir a favorito";
-        element.style.backgroundColor="lightgrey"
-      }); */
-      /* document.getElementsByTagName('button').textContent="Añadir a favorito";
-      document.getElementsByTagName('button').style.backgroundColor="lightgrey" */
-    
-    },
     backClass(valor){
       if (valor=="Araba"){
         return {'background-color':'coral'}
@@ -133,29 +121,44 @@
         e.target.src=require("../assets/like_2.png")
     }, */
     btnPulsado(e,evento){
-      //Cambiar Texto, Color de botón y añadir a SessionStorage
+      alert(evento.documentName)
+      if (sessionStorage.getItem('favoritos') != null){
+        alert("Entradas sucesivas")
+        //recuperamos el objeto de sessionStorage
+        this.favoritos=JSON.parse(sessionStorage.getItem('favoritos'));
+        
+        //buscamos el elemento dentro del array 
+        const i = this.favoritos.findIndex(el => el.documentName === evento.documentName);
+        //si i=-1 indica que el elemento no ha sido encontrado, y por lo tanto hay que añadirlo a favoritos
+        if(i == -1 ){
+          this.favoritos.push({documentName : evento.documentName, eventStartDate : evento.eventStartDate, territory : evento.territory, friendlyUrl : evento.friendlyUrl})
+          sessionStorage.setItem('favoritos', JSON.stringify(this.favoritos));
+        }
+        //Si el elemento se ha encontrado no hay que añadirlo a favoritos
+        else{
+          alert("El evento ya está guardado como favorito")
+        }
+      }
+      else{
+        alert("Primera entrada")
+        this.favoritos.push({documentName : evento.documentName, eventStartDate : evento.eventStartDate, territory : evento.territory, friendlyUrl : evento.friendlyUrl})
+        sessionStorage.setItem('favoritos', JSON.stringify(this.favoritos));
+      }
+      
+
+       
+  
+      /* //Cambiar Texto, Color de botón y añadir a SessionStorage
       if (e.target.textContent=="Añadir a favorito")
       {
-        //Cambiar texto y color
         e.target.textContent="Quitar de favorito";
-        e.target.style.backgroundColor="rgb(52, 185, 25)";
-        //Añadir a favoritos
-        //Comprobamos si existe para no duplicarlo
-        const i = this.favoritos.findIndex(element => element.documentName === evento.documentName);
-       
-        this.favoritos.push({eventNombre : evento.documentName, eventFecha : evento.eventStartDate, eventProvincia : evento.territory, eventUrl : evento.friendlyUrl})
-        sessionStorage.setItem('favoritos', JSON.stringify(this.favoritos));
-        
+        e.target.style.backgroundColor="rgb(52, 185, 25)";       
       }
       else{
         e.target.textContent="Añadir a favorito"
         e.target.style.backgroundColor="lightgrey";
-      }
+      } */
       
-      
-
-
-
     }
     
     }
