@@ -7,7 +7,7 @@
     <h3>FILTROS</h3>
     <p>Los filtros NO son excluyentes, es decir se puede filtrar por territorio, por mes del evento y por territorio y mes</p>
     <label for="territorios">Selecciona provincia:</label>
-    <select v-model="territorio">
+    <select v-model="territorio" @change="resetTabla">
       <option disabled value="">Elige una opción</option>
       <option>Todos</option>
       <option>Araba</option>
@@ -40,6 +40,7 @@
         <th scope="col">Territorio</th>
         <th scope="col">Descripción</th>
         <th scope="col">Más Info</th>
+        <th scope="col">Favoritos</th>
       </tr>
       </thead>
       <tbody>
@@ -49,8 +50,8 @@
           <td>{{ evento.territory }}</td>
           <td>{{ evento.documentDescription }}</td>
           <td><a  target="_BLANK" :href="evento.friendlyUrl">{{ evento.friendlyUrl }}</a></td>
-          <td><img class="imagen" src="../assets/like.png" alt="like" @click="btnLike($event,evento)"></td>
-          <!-- <td><button @click="btnPulsado">Añadir a favorito</button></td> -->         
+          <!-- <td><img class="imagen" src="../assets/like.png" alt="like" @click="btnLike($event,evento)"></td> -->
+          <td><button id="btnFavorito" style="background-color: lightgrey;" @click="btnPulsado($event,evento)">Añadir a favorito</button></td>         
         </tr>
       </tbody>
     </table>
@@ -67,9 +68,8 @@
         eventos:[],
         territorio:'',
         mes:'',
-        rowColor:'',
-        imagenLike:''
-        
+        imagenLike:'',
+        favoritos:[]
       }
     },
       mounted() {
@@ -100,6 +100,18 @@
                 this.eventos = respuesta.data;
             });
     },
+    resetTabla(){
+      alert("cambio botones")
+      const botones=document.getElementsByTagName('button')
+      alert(botones)
+      /* .forEach(element => {
+        element.textContent="Añadir a favorito";
+        element.style.backgroundColor="lightgrey"
+      }); */
+      /* document.getElementsByTagName('button').textContent="Añadir a favorito";
+      document.getElementsByTagName('button').style.backgroundColor="lightgrey" */
+    
+    },
     backClass(valor){
       if (valor=="Araba"){
         return {'background-color':'coral'}
@@ -111,7 +123,7 @@
         return {'background-color':'darkkhaki'}
       }
     },
-    btnLike(e,evento){
+    /* btnLike(e,evento){
       // cambio de la imagen al hacer click
       alert(evento.territory)
       alert(e.target.src)
@@ -119,15 +131,31 @@
         e.target.src=require("../assets/like.png")
       else
         e.target.src=require("../assets/like_2.png")
-
-
-
-    },
-    btnPulsado(e){
+    }, */
+    btnPulsado(e,evento){
+      //Cambiar Texto, Color de botón y añadir a SessionStorage
       if (e.target.textContent=="Añadir a favorito")
-        e.target.textContent="Quitar de favorito"
-      else
+      {
+        //Cambiar texto y color
+        e.target.textContent="Quitar de favorito";
+        e.target.style.backgroundColor="rgb(52, 185, 25)";
+        //Añadir a favoritos
+        //Comprobamos si existe para no duplicarlo
+        const i = this.favoritos.findIndex(element => element.documentName === evento.documentName);
+       
+        this.favoritos.push({eventNombre : evento.documentName, eventFecha : evento.eventStartDate, eventProvincia : evento.territory, eventUrl : evento.friendlyUrl})
+        sessionStorage.setItem('favoritos', JSON.stringify(this.favoritos));
+        
+      }
+      else{
         e.target.textContent="Añadir a favorito"
+        e.target.style.backgroundColor="lightgrey";
+      }
+      
+      
+
+
+
     }
     
     }

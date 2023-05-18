@@ -2,6 +2,7 @@
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/turismo">Turismo</router-link> |
+    <router-link to="/favoritos">Favoritos</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
   <router-view/>
