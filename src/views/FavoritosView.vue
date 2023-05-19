@@ -5,6 +5,7 @@
     <h1>En esta página te mostramos los eventos turísticos que has elegido</h1>
     <p></p><hr><p></p>
     <h2 v-if="!hayFavoritos">TODAVÍA NO HAS SELECCCIONADO ACTIVIDADES FAVORITAS</h2>
+
     <table v-if="hayFavoritos" class="content-table">
       <thead>
         <tr>
@@ -23,7 +24,6 @@
           <td><a  target="_BLANK" :href="evento.friendlyUrl">{{ evento.friendlyUrl }}</a></td>
           <td><button id="btnFavorito" style="background-color: lightgrey;" @click="borrarFavorito($event,evento)">Eliminar de favorito</button></td>         
         </tr>
-
       </tbody>
     </table>  
 </template>
@@ -33,14 +33,16 @@
       
       data(){
         return{
-          favoritos:[],
-          hayFavoritos:false,
+          favoritos : [],
+          hayFavoritos : false,
+          ordFecha : ''
 
         }
       },
       mounted() {
         this.leerStorage()
       },
+      
     methods:{
       leerStorage(){
         if (sessionStorage.getItem('favoritos') != null){
@@ -53,10 +55,17 @@
       },
       borrarFavorito(e, evento){
         //cambiar color del botón
-        e.target.style.backgroundColor="tomato";   
-        e.target.textContent="Borrado de favorito"    
+        /* e.target.style.backgroundColor="tomato";   
+        e.target.textContent="Borrado de favorito" */    
 
+        //buscamos el elemento a eliminar 
         const i = this.favoritos.findIndex(el => el.documentName === evento.documentName)
+        alert(i);
+        
+        if( i!=-1 ){
+          this.favoritos.splice(i,1);
+          sessionStorage.setItem("favoritos", JSON.stringify(this.favoritos))
+        }
       
       }
       }
