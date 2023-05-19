@@ -44,7 +44,7 @@
       </tr>
       </thead>
       <tbody>
-          <tr :style="backClass(evento.territory)" scope="row" v-for="evento in eventosSelect">
+        <tr :style="backClass(evento.territory)" scope="row" v-for="evento in eventosSelect">
           <td>{{ evento.documentName }}</td>
           <td>{{ evento.eventStartDate }}</td>
           <td>{{ evento.territory }}</td>
