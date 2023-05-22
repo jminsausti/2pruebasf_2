@@ -6,7 +6,7 @@
     <!-- <img alt="Vue logo" src="../assets/turismo_200x200.png"> -->
     <HelloWorld msg="Ongi etorri CIFP Txurdinaga LHII-ko turismo orrira"/>
     <hr>
-    <h3>
+    <!-- <h3>
       Si quieres personalizar y guardar de manera local tu recorrido turístico danos tu nombre. Si no tus preferencias no se guardarán.
     </h3>  
     <form @submit.prevent>
@@ -17,7 +17,7 @@
              
       <br>
       <button value="Login usuario" @click="comprobarUsuario">Login Usuario</button>
-  </form>
+  </form> -->
 
 
   </div>

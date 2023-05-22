@@ -60,7 +60,7 @@
 
         //buscamos el elemento a eliminar 
         const i = this.favoritos.findIndex(el => el.documentName === evento.documentName)
-        alert(i);
+        // alert(i);
         
         if( i!=-1 ){
           this.favoritos.splice(i,1);

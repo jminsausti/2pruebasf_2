@@ -123,7 +123,7 @@
     btnPulsado(e,evento){
       alert(evento.documentName)
       if (sessionStorage.getItem('favoritos') != null){
-        alert("Entradas sucesivas")
+        // alert("Entradas sucesivas")
         //recuperamos el objeto de sessionStorage
         this.favoritos=JSON.parse(sessionStorage.getItem('favoritos'));
         
@@ -140,14 +140,12 @@
         }
       }
       else{
-        alert("Primera entrada")
+        // alert("Primera entrada")
         this.favoritos.push({documentName : evento.documentName, eventStartDate : evento.eventStartDate, territory : evento.territory, friendlyUrl : evento.friendlyUrl})
         sessionStorage.setItem('favoritos', JSON.stringify(this.favoritos));
       }
       
 
-       
-  
       /* //Cambiar Texto, Color de botón y añadir a SessionStorage
       if (e.target.textContent=="Añadir a favorito")
       {
